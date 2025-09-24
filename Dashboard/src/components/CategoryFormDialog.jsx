@@ -51,8 +51,8 @@ export function CategoryFormDialog({
           { key: 'category', label: 'Category', type: 'text' },
           { key: 'minPrice', label: 'Min Price', type: 'text' },
           { key: 'maxPrice', label: 'Max Price', type: 'text' },
-          { key: 'roomTypes', label: 'Room Types (comma-separated)', type: 'array' },
-          { key: 'facilities', label: 'Facilities (comma-separated)', type: 'array' },
+          { key: 'roomTypes', label: 'Room Types (comma-separated)', type: 'string' },
+          { key: 'facilities', label: 'Facilities (comma-separated)', type: 'string' },
           { key: 'image0', label: 'Image 1 URL', type: 'text' },
           { key: 'image1', label: 'Image 2 URL', type: 'text' },
           { key: 'image2', label: 'Image 3 URL', type: 'text' },
@@ -151,7 +151,7 @@ export function CategoryFormDialog({
           { key: 'premium', label: 'Premium', type: 'checkbox' },
         ];
 
-      case 'NearbyTouristSpot':
+      case 'NearbyTouristSpots':
         return [
           { key: 'places', label: 'Place Name', type: 'text', required: true },
           { key: 'distance', label: 'Distance', type: 'text' },

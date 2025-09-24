@@ -98,12 +98,12 @@ export function AppSidebar({
           <div className="p-6 border-b border-border/50">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Building2 className="w-4 h-4 text-white" />
+                <Building2 className="w-4 h-4 text-black" />
               </div>
               {open && (
                 <div>
                   <h1 className="font-semibold text-foreground">City Manager</h1>
-                  <p className="text-xs text-muted-foreground">Admin Dashboard</p>
+                  <p className="text-xs text-muted-foreground">YesCity Dashboard</p>
                 </div>
               )}
             </div>
@@ -199,7 +199,8 @@ export function AppSidebar({
                         <div className="space-y-2 px-2">
                           <Button
                             onClick={onAddData}
-                            className="w-full bg-gradient-primary hover:bg-primary/90 text-white"
+                            variant="outline"
+                            className="w-full"
                             size="sm"
                           >
                             <Plus className="w-3 h-3 mr-1" />
