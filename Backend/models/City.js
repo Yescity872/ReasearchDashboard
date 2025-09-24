@@ -10,10 +10,11 @@ const CitySchema=new Schema({
     },
     coverImage: {
     type: String,
+    required:true
   },
   content: {
     type: String,
-  },
+    required:true  },
   engagement: {
     type: Object,
     default: {},

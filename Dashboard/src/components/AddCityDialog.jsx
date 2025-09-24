@@ -9,9 +9,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export function AddCityDialog({ open, onOpenChange, onAddCity }) {
   const [cityName, setCityName] = useState("");
+   const [coverImage, setCoverImage] = useState("");
+  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -20,8 +23,15 @@ export function AddCityDialog({ open, onOpenChange, onAddCity }) {
 
     try {
       setLoading(true);
-      await onAddCity(cityName.trim());
+      await onAddCity({
+        cityName: cityName.trim(),
+        coverImage: coverImage.trim() || undefined,
+        content: content.trim() || undefined,
+      });
+      // reset fields
       setCityName("");
+      setCoverImage("");
+      setContent("");
     } finally {
       setLoading(false);
     }
@@ -33,7 +43,7 @@ export function AddCityDialog({ open, onOpenChange, onAddCity }) {
         <DialogHeader>
           <DialogTitle>Add New City</DialogTitle>
           <DialogDescription>
-            Enter the name of the city you want to add to the system.
+            Provide details about the city to add it to the system.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -45,6 +55,26 @@ export function AddCityDialog({ open, onOpenChange, onAddCity }) {
               onChange={(e) => setCityName(e.target.value)}
               placeholder="Enter city name"
               required
+            />
+          </div>
+          {/* Cover Image */}
+          <div className="space-y-2">
+            <Label htmlFor="coverImage">Cover Image URL</Label>
+            <Input
+              id="coverImage"
+              value={coverImage}
+              onChange={(e) => setCoverImage(e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+          {/* Content */}
+          <div className="space-y-2">
+            <Label htmlFor="content">Description</Label>
+            <Textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Write a short description about this city..."
             />
           </div>
           <div className="flex gap-2 justify-end">

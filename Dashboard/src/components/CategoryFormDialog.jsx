@@ -219,8 +219,8 @@ export function CategoryFormDialog({
 
       case 'Miscellaneous':
         return [
-          { key: 'engagement', label: 'Engagement (JSON)', type: 'text' },
-          { key: 'reviews', label: 'Reviews (JSON array)', type: 'text' },
+          // { key: 'engagement', label: 'Engagement (JSON)', type: 'text' },
+          // { key: 'reviews', label: 'Reviews (JSON array)', type: 'text' },
           { key: 'localMap', label: 'Local Map Link', type: 'text' },
           { key: 'emergencyContacts', label: 'Emergency Contacts', type: 'text' },
           { key: 'hospital', label: 'Hospital Name', type: 'text' },

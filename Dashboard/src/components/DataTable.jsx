@@ -71,16 +71,16 @@ export function DataTable({ data, category, onEdit, onDataChange }) {
     
     const categoryColumns = {
       'Accommodation': ['cityName', 'hotels'],
-      'Activities': ['cityName', 'activityName'],
-      'Connectivity': ['cityName', 'type'],
-      'Food': ['cityName', 'restaurantName'],
-      'GeneralCityInfo': ['cityName', 'stateOrUT'],
-      'HiddenGems': ['cityName', 'gemName'],
-      'LocalTransport': ['cityName', 'transportType'],
-      'Miscellaneous': ['cityName', 'title'],
-      'NearbyTouristSpots': ['cityName', 'spotName'],
-      'PlacesToVisit': ['cityName', 'placeName'],
-      'Shopping': ['cityName', 'shopName']
+      'Activities': ['cityName', 'topActivities'],
+      'Connectivity': ['cityName', 'nearestAirportStationBusStand'],
+      'Food': ['cityName', 'foodPlace'],
+      'GeneralCityInfo': ['cityName', 'stateOrUT','alternateNames'],
+      'HiddenGems': ['cityName', 'hiddenGem'],
+      'LocalTransport': ['cityName', 'from', 'to'],
+      'Miscellaneous': ['cityName', 'parking', 'hospital'],
+      'NearbyTouristSpots': ['cityName', 'places'],
+      'PlacesToVisit': ['cityName', 'places'],
+      'Shopping': ['cityName', 'shops']
     };
 
     const essentialColumns = categoryColumns[category] || ['cityName'];
