@@ -54,7 +54,7 @@ app.use("/api/connectivity", connectivityRoutes);
 app.use("/api/food", foodRoutes);
 app.use("/api/hiddengems", hiddenGemsRoutes);
 app.use("/api/local-transport", localTransportRoutes);
-app.use("/api/nearby", nearbyTouristSpotRoutes);
+app.use("/api/nearbytouristspots", nearbyTouristSpotRoutes);
 app.use("/api/places", placesToVisitRoutes);
 app.use("/api/shopping", shoppingRoutes);
 app.use("/api/miscellaneous", miscellaneousRoutes);

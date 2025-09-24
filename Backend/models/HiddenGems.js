@@ -3,12 +3,21 @@ const { Schema } = mongoose;
 
 const HiddenGemsSchema = new mongoose.Schema({
   cityId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
   },
   cityName: {
     type: String,
     required: true,
+  },
+  engagement: {
+    type: Object, // You can expand this to a specific schema if necessary
+    default: {},
+  },
+  reviews: {
+    type: [String], // Reviews stored as an array of strings
+    default: [],
   },
   hiddenGem: {
     type: String,
@@ -50,20 +59,13 @@ const HiddenGemsSchema = new mongoose.Schema({
   story: {
     type: String,
   },
-  image0: {
-    type: String,
-  },
-  image1: {
-    type: String,
-  },
-  image2: {
-    type: String,
-  },
   images: {
-    type: [String], // multiple image links
+    type: [String], // Array of image URLs
+    default: [],
   },
   videos: {
-    type: String, // YouTube or other links
+    type: [String], // Array of video URLs
+    default: [],
   },
   premium: {
     type: String,
@@ -71,5 +73,5 @@ const HiddenGemsSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const HiddenGem = mongoose.model("HiddenGem", HiddenGemsSchema);
+const HiddenGem = mongoose.model("hiddengems", HiddenGemsSchema);
 export default HiddenGem;

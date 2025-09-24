@@ -4,8 +4,9 @@ import mongoose from "mongoose";
 const MiscellaneousSchema = new mongoose.Schema(
   {
     cityId: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
     cityName: {
       type: String,
@@ -95,5 +96,5 @@ const MiscellaneousSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Miscellaneous = mongoose.model("Miscellaneous", MiscellaneousSchema);
+const Miscellaneous = mongoose.model("miscellaneous", MiscellaneousSchema);
 export default Miscellaneous;

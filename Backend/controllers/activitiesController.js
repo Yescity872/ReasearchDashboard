@@ -1,5 +1,6 @@
 import Activities from "../models/Activities.js";
 import {getCityId} from "../utils/getCityId.js";
+import mongoose from "mongoose";
 
 export const createActivity = async (req, res) => {
   try {
@@ -41,7 +42,22 @@ export const createActivity = async (req, res) => {
 
 export const getActivitiesByCity = async (req, res) => {
   try {
-    const { cityId } = req.params;
+    const  cityId  = req.params.cityId;
+
+    // Validate cityId parameter
+    if (!cityId || !mongoose.Types.ObjectId.isValid(cityId)) {
+      return res.status(400).json({ 
+        message: "City ID is required and must be a valid ObjectId" 
+      });
+    }
+
+    // Validate if cityId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(cityId)) {
+      return res.status(400).json({ 
+        message: "Invalid City ID format" 
+      });
+    }
+
     const activities = await Activities.find({ cityId });
 
     if (!activities || activities.length === 0) {

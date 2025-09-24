@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 
 const shoppingSchema = new mongoose.Schema({
   cityId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
     required: true
   },
   cityName: {
@@ -60,21 +61,12 @@ const shoppingSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
-  image0: {
-    type: String
-  },
-  image1: {
-    type: String
-  },
-  image2: {
-    type: String
-  },
   premium: {
     type: String,
     default: "FREE"
   }
 }, { timestamps: true });
 
-const Shopping = mongoose.model("Shopping", shoppingSchema);
+const Shopping = mongoose.model("shoppings", shoppingSchema);
 
 export default Shopping;

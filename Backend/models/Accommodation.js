@@ -1,69 +1,66 @@
-import mongoose from 'mongoose';
-const {Schema}=mongoose;
+// models/accommodations.js
+import mongoose from "mongoose";
 
-const AccommodationSchema = new Schema({
+const accommodationSchema = new mongoose.Schema({
   cityId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
   },
   cityName: {
     type: String,
-    required: true,
-    trim: true,
+    required: true
   },
-  flagShip: {
+  engagement: {
+    type: Object,
+    default: {}
+  },
+  flagship: {
     type: Boolean,
-    default: true,
+    default: false
+  },
+  reviews: {
+    type: [String], // can be enhanced to [{ userId, reviewText, rating }]
+    default: []
   },
   hotels: {
     type: String,
-    required: true,
-    trim: true,
+    required: true
   },
   lat: {
     type: Number,
+    required: true
   },
   lon: {
     type: Number,
+    required: true
   },
   address: {
     type: String,
+    required: true
   },
   locationLink: {
-    type: String,
+    type: String
   },
   category: {
-    type: String,
-  },
-  minPrice: {
-    type: String,
-  },
-  maxPrice: {
-    type: String,
+    type: String // e.g. "5-star hotel"
   },
   roomTypes: {
-    type: [String],
+    type: String // can also be [String] if you want multiple stored as array
   },
   facilities: {
-    type: [String],
-  },
-  image0: {
-    type: String,
-  },
-  image1: {
-    type: String,
-  },
-  image2: {
-    type: String,
+    type: String // same, could be [String] if needed
   },
   images: {
     type: [String],
+    default: []
   },
   premium: {
-    type: Boolean,
-    default: false,
-  },
+    type: String,
+    default: "FREE"
+  }
 }, { timestamps: true });
 
-const Accommodation = mongoose.model('Accommodation', AccommodationSchema);
+const Accommodation = mongoose.model("accommodations", accommodationSchema);
+
 export default Accommodation;

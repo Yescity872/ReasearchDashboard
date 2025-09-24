@@ -4,8 +4,9 @@ import mongoose from "mongoose";
 const NearbyTouristSpotSchema = new mongoose.Schema(
   {
     cityId: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
     cityName: {
       type: String,
@@ -92,7 +93,7 @@ const NearbyTouristSpotSchema = new mongoose.Schema(
 );
 
 const NearbyTouristSpot = mongoose.model(
-  "NearbyTouristSpot",
+  "nearbytouristspots",
   NearbyTouristSpotSchema
 );
 

@@ -4,15 +4,23 @@ const { Schema } = mongoose;
 const FoodSchema = new Schema(
   {
     cityId: {
-      type: String,
-      required: true,
-      index: true,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
     cityName: {
       type: String,
       required: true,
       trim: true,
     },
+    engagement: {
+    type: Object,
+    default: {},
+  },
+  reviews: {
+    type: [String], // Can later expand to sub-schema for rating + comment
+    default: [],
+  },
     flagship: {
       type: Boolean,
       default: false,
@@ -42,26 +50,23 @@ const FoodSchema = new Schema(
     vegOrNonVeg: {
       type: String,
       enum: ["Veg", "NonVeg", "Both"],
+      default: "Veg",
     },
     valueForMoney: {
       type: Number,
-      min: 0,
-      max: 5,
+      default : 0,
     },
     service: {
       type: Number,
-      min: 0,
-      max: 5,
+      default: 0,
     },
     taste: {
       type: Number,
-      min: 0,
-      max: 5,
+      default: 0,
     },
     hygiene: {
       type: Number,
-      min: 0,
-      max: 5,
+      default: 0,
     },
     menuSpecial: {
       type: String,
@@ -85,11 +90,13 @@ const FoodSchema = new Schema(
     description: {
       type: String,
     },
-    image0: { type: String },
-    image1: { type: String },
-    image2: { type: String },
-    images: [{ type: String }], // multiple images array
-    videos: { type: String }, // multiple videos array
+    images: {
+    type: [String], // Array of image URLs
+    default: [],
+  },
+  videos: {
+    type: [String], // Array of video URLs
+  },
     premium: {
       type: String,
       default: "Free",
@@ -98,6 +105,6 @@ const FoodSchema = new Schema(
   { timestamps: true }
 );
 
-const Food = mongoose.model("Food", FoodSchema);
+const Food = mongoose.model("foods", FoodSchema);
 
 export default Food;

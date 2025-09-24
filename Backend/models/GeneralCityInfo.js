@@ -4,17 +4,23 @@ const {Schema}=mongoose;
 
 const GeneralCityInfoSchema=new Schema({
     cityId: {
-      type: String, // e.g. "68c7454b4ea2df675385f351"
-      required: true,
-      unique: true, // ensures one cityId per city
-      index: true,  // makes lookups faster
-      default: uuidv4,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
     cityName: {
       type: String,
       required: true,
       trim: true,
     },
+    reviews: {
+    type: [String], // Assuming reviews will be stored as an array of strings
+    default: [],
+  },
+  engagement: {
+    type: Object, // You can define a more specific schema for engagement if needed
+    default: {},
+  },
     stateOrUT: {
       type: String,
       default: '',
@@ -57,6 +63,6 @@ const GeneralCityInfoSchema=new Schema({
   { timestamps: true }
 );
 
-const GeneralCityInfo=mongoose.model('GeneralCityInfo',GeneralCityInfoSchema);
+const GeneralCityInfo=mongoose.model('cityinfos',GeneralCityInfoSchema);
 
 export default GeneralCityInfo;

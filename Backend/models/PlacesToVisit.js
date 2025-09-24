@@ -4,8 +4,9 @@ import mongoose from "mongoose";
 const PlacesToVisitSchema = new mongoose.Schema(
   {
     cityId: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
     cityName: {
       type: String,
@@ -87,6 +88,6 @@ const PlacesToVisitSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const PlacesToVisit = mongoose.model("PlacesToVisit", PlacesToVisitSchema);
+const PlacesToVisit = mongoose.model("placestovisits", PlacesToVisitSchema);
 
 export default PlacesToVisit;

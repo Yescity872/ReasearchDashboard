@@ -23,7 +23,12 @@ export const createCity = async (req, res) => {
 export const getAllcities = async (req, res) => {
     try {
         const cities = await City.find().sort({ cityName: 1 });
-        return res.status(200).json(cities);
+        // Add cityId as an alias for _id for frontend compatibility
+    const citiesWithCityId = cities.map(city => ({
+      ...city.toObject(),
+      cityId: city._id
+    }));
+        return res.status(200).json(citiesWithCityId);
     } catch (error) {
         console.error("Error fetching cities:", error);
         res.status(500).json({ message: "Server error" });

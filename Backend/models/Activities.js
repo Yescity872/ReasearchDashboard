@@ -1,45 +1,54 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+// models/activities.js
+import mongoose from "mongoose";
 
-const ActivitiesSchema = new Schema({
+const activitiesSchema = new mongoose.Schema({
   cityId: {
-    type: String,
-    required: true,
-    index: true,
+    type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
   },
   cityName: {
     type: String,
-    required: true,
-    trim: true,
+    required: true
+  },
+  engagement: {
+    type: Object,
+    default: {}
+  },
+  reviews: {
+    type: [String], // could be upgraded to [{ userId, reviewText, rating }]
+    default: []
   },
   topActivities: {
-    type: String,
-    required: true,
-    trim: true,
+    type: String
   },
   bestPlaces: {
-    type: String,
+    type: String
   },
   description: {
-    type: String,
+    type: String
   },
   essentials: {
-    type: String,
+    type: [String],
+    default: []
   },
   fee: {
-    type: String,
+    type: String
   },
   images: {
-    type: String, // store multiple images as array
+    type: [String],
+    default: []
   },
   videos: {
-    type: String, // store multiple video links as array
+    type: [String],
+    default: []
   },
   premium: {
-    type: Boolean,
-    default: false,
-  },
+    type: String,
+    default: "FREE"
+  }
 }, { timestamps: true });
 
-const Activities = mongoose.model('Activities', ActivitiesSchema);
+const Activities = mongoose.model("activities", activitiesSchema);
+
 export default Activities;

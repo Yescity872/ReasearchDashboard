@@ -9,7 +9,7 @@ export const getCityId = async (cityName) => {
             city = await City.create({ cityName, stateOrUT });
         }
 
-        return city.cityId;
+        return city._id.toString();
     } catch (error) {
         console.error("Error fetching cityId:", error);
         throw new Error("Could not fetch cityId");

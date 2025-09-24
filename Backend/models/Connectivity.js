@@ -6,10 +6,18 @@ const { Schema } = mongoose;
 const ConnectivitySchema = new Schema(
   {
     cityId: {
-      type: String,
-      required: true,
-      index: true,
+      type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
+    ref: 'cities', // Add reference to cities collection
+    required: true
     },
+    engagement: {
+    type: Object,
+    default: {},
+  },
+  reviews: {
+    type: [String], // or you can define a subdocument schema if reviews need more fields
+    default: [],
+  },
     cityName: {
       type: String,
       required: true,
@@ -36,13 +44,13 @@ const ConnectivitySchema = new Schema(
       type: String,
     },
     premium: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "FREE",
     },
   },
   { timestamps: true }
 );
 
-const Connectivity = mongoose.model("Connectivity", ConnectivitySchema);
+const Connectivity = mongoose.model("connectivities", ConnectivitySchema);
 
 export default Connectivity;

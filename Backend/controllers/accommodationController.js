@@ -93,7 +93,7 @@ export const createAccommodation = async (req, res) => {
     const {
       cityName,
       hotels,
-      flagShip,
+      flagship,
       lat,
       lon,
       address,
@@ -117,7 +117,7 @@ export const createAccommodation = async (req, res) => {
       cityId,
       cityName,
       hotels,
-      flagShip,
+      flagship,
       lat,
       lon,
       address,
