@@ -72,21 +72,16 @@ export function AppSidebar({
     fetchCities();
   }, []);
 
-  const handleAddCity = async (cityName) => {
+  const handleAddCity = async (cityData) => {
     try {
-      await citiesApi.create({ cityName });
+      await citiesApi.create({
+         cityName: cityData.cityName,
+        coverImage: cityData.coverImage || "", // Provide empty string if undefined
+        content: cityData.content || "" // Provide empty string if undefined
+         });
       await fetchCities();
       setShowAddCity(false);
-    //   toast({
-    //     title: "Success",
-    //     description: "City added successfully",
-    //   });
     } catch (error) {
-    //   toast({
-    //     title: "Error", 
-    //     description: "Failed to add city",
-    //     variant: "destructive",
-    //   });
     }
   };
 

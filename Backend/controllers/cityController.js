@@ -2,7 +2,7 @@ import City from "../models/City.js";
 
 export const createCity = async (req, res) => {
     try {
-        const { cityName } = req.body;
+        const { cityName,coverImage,content } = req.body;
         if (!cityName) {
             return res.status(400).json({ message: "City name is required" });
         }
@@ -11,7 +11,11 @@ export const createCity = async (req, res) => {
         if (existingCity) {
             return res.status(409).json({ message: "City already exists", cityId: existingCity.cityId });
         }
-        const newCity = new City({ cityName });
+        const newCity = new City({
+      cityName,
+      coverImage,
+      content,
+    });
         await newCity.save();
         res.status(201).json({ message: "City created successfully", cityId: newCity.cityId });
     } catch (error) {
@@ -38,7 +42,7 @@ export const getAllcities = async (req, res) => {
 export const getCityById=async(req,res)=>{
     try {
         const {cityId}=req.params;
-        const city=await City.findOne({cityId});
+        const city=await City.findOne(cityId);
         if(!city){
             return res.status(404).json({message:"City not found"});
         }
