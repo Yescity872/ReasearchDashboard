@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
-app.head('/api', (req, res) => {
+app.head('/', (req, res) => {
     res.status(200).end();
 });
 
