@@ -1,5 +1,14 @@
 import GeneralCityInfo from "../models/GeneralCityInfo.js";
 import { getCityId } from "../utils/getCityId.js";
+import cloudinary from 'cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // ➝ Add general city info
 export const createCityInfo = async (req, res) => {

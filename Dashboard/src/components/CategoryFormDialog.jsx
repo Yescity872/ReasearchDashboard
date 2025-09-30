@@ -22,22 +22,118 @@ export function CategoryFormDialog({
   editData,
   onSuccess,
 }) {
-//   const { toast } = useToast();
+  //   const { toast } = useToast();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   if (open) {
+  //     setFormData(
+  //       editData
+  //         ? { ...editData }
+  //         : {
+  //           cityId: city.cityId,
+  //           cityName: city.cityName,
+  //         }
+  //     );
+  //   }
+  // }, [open, editData, city]);
+
   useEffect(() => {
-    if (open) {
-      setFormData(
-        editData
-          ? { ...editData }
-          : {
-              cityId: city.cityId,
-              cityName: city.cityName,
-            }
-      );
+  if (open) {
+    if (editData) {
+      // For edit mode, populate all fields including individual image fields
+      const editFormData = { ...editData };
+      
+      // Extract individual image fields from the images array
+      if (editData.images && Array.isArray(editData.images)) {
+        editFormData.image0 = editData.images[0] || '';
+        editFormData.image1 = editData.images[1] || '';
+        editFormData.image2 = editData.images[2] || '';
+      } else {
+        // Fallback if images array doesn't exist
+        editFormData.image0 = editData.image0 || '';
+        editFormData.image1 = editData.image1 || '';
+        editFormData.image2 = editData.image2 || '';
+      }
+      
+      setFormData(editFormData);
+    } else {
+      // For create mode
+      setFormData({
+        cityId: city.cityId,
+        cityName: city.cityName,
+        image0: '',
+        image1: '',
+        image2: '',
+        images: []
+      });
     }
-  }, [open, editData, city]);
+  }
+}, [open, editData, city]);
+
+// useEffect(() => {
+//   if (open) {
+//     if (editData) {
+//       // For edit mode, populate all fields
+//       const editFormData = { ...editData };
+      
+//       // For Activities: extract image0 from images array
+//       if (category === 'Activities') {
+//         if (editData.images && Array.isArray(editData.images) && editData.images.length > 0) {
+//           editFormData.image0 = editData.images[0] || '';
+//         } else {
+//           editFormData.image0 = '';
+//         }
+//       } else {
+//         // For other categories with multiple images
+//         if (editData.images && Array.isArray(editData.images)) {
+//           editFormData.image0 = editData.images[0] || '';
+//           editFormData.image1 = editData.images[1] || '';
+//           editFormData.image2 = editData.images[2] || '';
+//         } else {
+//           editFormData.image0 = editData.image0 || '';
+//           editFormData.image1 = editData.image1 || '';
+//           editFormData.image2 = editData.image2 || '';
+//         }
+//       }
+      
+//       // Convert essentials array to string for display
+//       if (editData.essentials && Array.isArray(editData.essentials)) {
+//         editFormData.essentials = editData.essentials.join(', ');
+//       }
+      
+//       // Convert premium to boolean for checkbox
+//       if (editData.premium) {
+//         editFormData.premium = editData.premium === "PREMIUM";
+//       }
+      
+//       setFormData(editFormData);
+//     } else {
+//       // For create mode
+//       const createFormData = {
+//         cityId: city.cityId,
+//         cityName: city.cityName,
+//       };
+      
+//       // For Activities: only image0
+//       if (category === 'Activities') {
+//         createFormData.image0 = '';
+//       } else {
+//         // For other categories: image0, image1, image2
+//         createFormData.image0 = '';
+//         createFormData.image1 = '';
+//         createFormData.image2 = '';
+//       }
+      
+//       createFormData.videos = [];
+//       createFormData.essentials = '';
+//       createFormData.premium = false;
+      
+//       setFormData(createFormData);
+//     }
+//   }
+// }, [open, editData, city, category]);
 
   const getFormFields = () => {
     switch (category) {
@@ -72,52 +168,52 @@ export function CategoryFormDialog({
         ];
       case 'Activities':
         return [
-        { key: 'topActivities', label: 'Top Activities', type: 'text', required: true },
-        { key: 'bestPlaces', label: 'Best Places to Visit', type: 'text' },
-        { key: 'description', label: 'Activity Description', type: 'textarea' },
-        { key: 'essentials', label: 'Travel Essentials', type: 'text' },
-        { key: 'fee', label: 'Entry Fee/Cost', type: 'text' },
-        { key: 'images', label: 'Image URLs', type: 'text' },
-        { key: 'videos', label: 'Video URLs', type: 'text' },
-        { key: 'premium', label: 'Premium Activity', type: 'checkbox' },
-      ];
+          { key: 'topActivities', label: 'Top Activities', type: 'text', required: true },
+          { key: 'bestPlaces', label: 'Best Places to Visit', type: 'text' },
+          { key: 'description', label: 'Activity Description', type: 'textarea' },
+          { key: 'essentials', label: 'Travel Essentials', type: 'text' },
+          { key: 'fee', label: 'Entry Fee/Cost', type: 'text' },
+          { key: 'image0', label: 'Image URL', type: 'text' },
+          { key: 'videos', label: 'Video URLs', type: 'array' },
+          { key: 'premium', label: 'Premium Activity', type: 'checkbox' },
+        ];
       case 'Connectivity':
-  return [
-    { key: 'nearestAirportStationBusStand', label: 'Nearest Airport/Station/Bus Stand', type: 'text', required: true },
-    { key: 'distance', label: 'Distance from City', type: 'text' },
-    { key: 'lat', label: 'Latitude', type: 'number' },
-    { key: 'lon', label: 'Longitude', type: 'number' },
-    { key: 'locationLink', label: 'Location Link', type: 'text' },
-    { key: 'majorFlightsTrainsBuses', label: 'Major Flights/Trains/Buses', type: 'textarea' },
-    { key: 'premium', label: 'Premium', type: 'checkbox' },
-  ];
-  case 'Food':
-  return [
-    { key: 'foodPlace', label: 'Food Place Name', type: 'text', required: true },
-    { key: 'flagship', label: 'Flagship Place', type: 'checkbox' },
-    { key: 'lat', label: 'Latitude', type: 'number' },
-    { key: 'lon', label: 'Longitude', type: 'number' },
-    { key: 'address', label: 'Address', type: 'text' },
-    { key: 'locationLink', label: 'Location Link', type: 'text' },
-    { key: 'category', label: 'Category', type: 'text' },
-    { key: 'vegOrNonVeg', label: 'Veg/Non-Veg', type: 'select', options: ['Veg', 'NonVeg', 'Both'] },
-    { key: 'valueForMoney', label: 'Value for Money (0-5)', type: 'number', min: 0, max: 5 },
-    { key: 'service', label: 'Service Rating (0-5)', type: 'number', min: 0, max: 5 },
-    { key: 'taste', label: 'Taste Rating (0-5)', type: 'number', min: 0, max: 5 },
-    { key: 'hygiene', label: 'Hygiene Rating (0-5)', type: 'number', min: 0, max: 5 },
-    { key: 'menuSpecial', label: 'Menu Specialties', type: 'textarea' },
-    { key: 'menuLink', label: 'Menu Link', type: 'text' },
-    { key: 'openDay', label: 'Open Days', type: 'text' },
-    { key: 'openTime', label: 'Open Time', type: 'text' },
-    { key: 'phone', label: 'Phone Number', type: 'text' },
-    { key: 'website', label: 'Website', type: 'text' },
-    { key: 'description', label: 'Description', type: 'textarea' },
-    { key: 'image0', label: 'Image 1 URL', type: 'text' },
-    { key: 'image1', label: 'Image 2 URL', type: 'text' },
-    { key: 'image2', label: 'Image 3 URL', type: 'text' },
-    { key: 'videos', label: 'Video URLs', type: 'text' },
-    { key: 'premium', label: 'Premium', type: 'checkbox' },
-  ];
+        return [
+          { key: 'nearestAirportStationBusStand', label: 'Nearest Airport/Station/Bus Stand', type: 'text', required: true },
+          { key: 'distance', label: 'Distance from City', type: 'text' },
+          { key: 'lat', label: 'Latitude', type: 'number' },
+          { key: 'lon', label: 'Longitude', type: 'number' },
+          { key: 'locationLink', label: 'Location Link', type: 'text' },
+          { key: 'majorFlightsTrainsBuses', label: 'Major Flights/Trains/Buses', type: 'textarea' },
+          { key: 'premium', label: 'Premium', type: 'checkbox' },
+        ];
+      case 'Food':
+        return [
+          { key: 'foodPlace', label: 'Food Place Name', type: 'text', required: true },
+          { key: 'flagship', label: 'Flagship Place', type: 'checkbox' },
+          { key: 'lat', label: 'Latitude', type: 'number' },
+          { key: 'lon', label: 'Longitude', type: 'number' },
+          { key: 'address', label: 'Address', type: 'text' },
+          { key: 'locationLink', label: 'Location Link', type: 'text' },
+          { key: 'category', label: 'Category', type: 'text' },
+          { key: 'vegOrNonVeg', label: 'Veg/Non-Veg', type: 'select', options: ['Veg', 'NonVeg', 'Both'] },
+          { key: 'valueForMoney', label: 'Value for Money (0-5)', type: 'number', min: 0, max: 5 },
+          { key: 'service', label: 'Service Rating (0-5)', type: 'number', min: 0, max: 5 },
+          { key: 'taste', label: 'Taste Rating (0-5)', type: 'number', min: 0, max: 5 },
+          { key: 'hygiene', label: 'Hygiene Rating (0-5)', type: 'number', min: 0, max: 5 },
+          { key: 'menuSpecial', label: 'Menu Specialties', type: 'textarea' },
+          { key: 'menuLink', label: 'Menu Link', type: 'text' },
+          { key: 'openDay', label: 'Open Days', type: 'text' },
+          { key: 'openTime', label: 'Open Time', type: 'text' },
+          { key: 'phone', label: 'Phone Number', type: 'text' },
+          { key: 'website', label: 'Website', type: 'text' },
+          { key: 'description', label: 'Description', type: 'textarea' },
+          { key: 'image0', label: 'Image 1 URL', type: 'text' },
+          { key: 'image1', label: 'Image 2 URL', type: 'text' },
+          { key: 'image2', label: 'Image 3 URL', type: 'text' },
+          { key: 'videos', label: 'Video URLs', type: 'array' },
+          { key: 'premium', label: 'Premium', type: 'checkbox' },
+        ];
 
       case 'HiddenGems':
         return [
@@ -137,7 +233,7 @@ export function CategoryFormDialog({
           { key: 'image0', label: 'Image 1 URL', type: 'text' },
           { key: 'image1', label: 'Image 2 URL', type: 'text' },
           { key: 'image2', label: 'Image 3 URL', type: 'text' },
-          { key: 'videos', label: 'Video URLs', type: 'text' },
+          { key: 'videos', label: 'Video URLs', type: 'array' },
           { key: 'premium', label: 'Premium', type: 'checkbox' },
         ];
 
@@ -170,7 +266,7 @@ export function CategoryFormDialog({
           { key: 'image0', label: 'Image 1 URL', type: 'text' },
           { key: 'image1', label: 'Image 2 URL', type: 'text' },
           { key: 'image2', label: 'Image 3 URL', type: 'text' },
-          { key: 'videos', label: 'Video URLs', type: 'text' },
+          { key: 'videos', label: 'Video URLs', type: 'array' },
           { key: 'premium', label: 'Premium', type: 'checkbox' },
         ];
 
@@ -192,7 +288,7 @@ export function CategoryFormDialog({
           { key: 'image0', label: 'Image 1 URL', type: 'text' },
           { key: 'image1', label: 'Image 2 URL', type: 'text' },
           { key: 'image2', label: 'Image 3 URL', type: 'text' },
-          { key: 'videos', label: 'Video URLs', type: 'text' },
+          { key: 'videos', label: 'Video URLs', type: 'array' },
           { key: 'premium', label: 'Premium', type: 'checkbox' },
         ];
 
@@ -256,10 +352,10 @@ export function CategoryFormDialog({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setLoading(true);
-      
+
       // Process array fields and JSON-like fields
       const processedData = { ...formData };
       getFormFields().forEach(field => {
@@ -271,10 +367,10 @@ export function CategoryFormDialog({
         }
         if (category === 'Miscellaneous') {
           if (field.key === 'engagement' && typeof processedData.engagement === 'string') {
-            try { processedData.engagement = JSON.parse(processedData.engagement); } catch {}
+            try { processedData.engagement = JSON.parse(processedData.engagement); } catch { }
           }
           if (field.key === 'reviews' && typeof processedData.reviews === 'string') {
-            try { processedData.reviews = JSON.parse(processedData.reviews); } catch {}
+            try { processedData.reviews = JSON.parse(processedData.reviews); } catch { }
           }
         }
       });
@@ -292,15 +388,15 @@ export function CategoryFormDialog({
         //   description: "Item created successfully",
         // });
       }
-      
+
       onSuccess();
       onOpenChange(false);
     } catch (error) {
-    //   toast({
-    //     title: "Error",
-    //     description: `Failed to ${editData ? 'update' : 'create'} item`,
-    //     variant: "destructive",
-    //   });
+      //   toast({
+      //     title: "Error",
+      //     description: `Failed to ${editData ? 'update' : 'create'} item`,
+      //     variant: "destructive",
+      //   });
     } finally {
       setLoading(false);
     }
@@ -323,7 +419,7 @@ export function CategoryFormDialog({
             {editData ? 'Update' : 'Create'} {category.toLowerCase()} data for {city.cityName}
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid gap-4">
             {fields.map((field) => (
@@ -331,7 +427,7 @@ export function CategoryFormDialog({
                 <Label htmlFor={field.key}>
                   {field.label} {field.required && <span className="text-destructive">*</span>}
                 </Label>
-                
+
                 {field.type === 'textarea' ? (
                   <Textarea
                     id={field.key}
@@ -373,7 +469,7 @@ export function CategoryFormDialog({
               </div>
             ))}
           </div>
-          
+
           <div className="flex gap-2 justify-end pt-4 border-t">
             <Button
               type="button"

@@ -1,6 +1,5 @@
 import LocalTransport from "../models/LocalTransport.js";
 import { getCityId } from "../utils/getCityId.js";
-
 // ➝ Create new local transport entry
 export const createLocalTransport = async (req, res) => {
   try {

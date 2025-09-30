@@ -44,6 +44,10 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+app.head('/', (req, res) => {
+    res.status(200).end();
+});
+
 // Routes 
 
 app.use('/api/cities',cityRoutes);

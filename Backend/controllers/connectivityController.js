@@ -1,5 +1,14 @@
 import Connectivity from "../models/Connectivity.js";
 import { getCityId } from "../utils/getCityId.js";
+import cloudinary from 'cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // ➝ Create new connectivity info
 export const createConnectivity = async (req, res) => {

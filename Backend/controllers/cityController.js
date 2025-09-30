@@ -1,4 +1,13 @@
 import City from "../models/City.js";
+import cloudinary from 'cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 export const createCity = async (req, res) => {
     try {
@@ -11,9 +20,30 @@ export const createCity = async (req, res) => {
         if (existingCity) {
             return res.status(409).json({ message: "City already exists", cityId: existingCity.cityId });
         }
+        let cloudinaryImageUrl = coverImage;
+        if (coverImage && coverImage.trim() !== "") {
+            try {
+                // Upload image to Cloudinary
+                const uploadResult = await cloudinary.v2.uploader.upload(coverImage, {
+                    folder: 'city-covers',
+                    transformation: [
+                        { width: 1200, height: 630, crop: 'fill' },
+                        { quality: 'auto' },
+                        { format: 'webp' }
+                    ]
+                });
+                
+                cloudinaryImageUrl = uploadResult.secure_url;
+            } catch (uploadError) {
+                console.error("Cloudinary upload error:", uploadError);
+                // If upload fails, use the original URL or handle error as needed
+                // You can choose to proceed with original URL or return error
+                // return res.status(400).json({ message: "Invalid image URL" });
+            }
+        }
         const newCity = new City({
       cityName,
-      coverImage,
+      coverImage:cloudinaryImageUrl,
       content,
     });
         await newCity.save();
