@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const localTransportSchema = new mongoose.Schema({
     cityId: { 
@@ -10,13 +11,20 @@ const localTransportSchema = new mongoose.Schema({
         type:String
     },
     engagement: {
-    type: Object, // You can expand this to a specific schema if necessary
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
-  reviews: {
-    type: [String], // Reviews stored as an array of strings
-    default: [],
-  },
+
+  reviews: [
+    { type: Schema.Types.ObjectId, 
+        ref: "Review" }
+    ],
+
     from: { 
         type: String, 
         required: true 
@@ -35,9 +43,10 @@ const localTransportSchema = new mongoose.Schema({
         type:String
     },
     premium: {
-        type: String,
-        default: "Free",
-    }
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE",
+  },
 }, { timestamps: true });
 
 const LocalTransport = mongoose.model("localtransports", localTransportSchema);

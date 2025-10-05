@@ -12,13 +12,15 @@ const HiddenGemsSchema = new mongoose.Schema({
     required: true,
   },
   engagement: {
-    type: Object, // You can expand this to a specific schema if necessary
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
-  reviews: {
-    type: [String], // Reviews stored as an array of strings
-    default: [],
-  },
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   hiddenGem: {
     type: String,
     required: true, // ✅ required field
@@ -69,7 +71,8 @@ const HiddenGemsSchema = new mongoose.Schema({
   },
   premium: {
     type: String,
-    default: "Free",
+    enum: ["FREE", "A", "B"],
+    default: "FREE"
   },
 }, { timestamps: true });
 

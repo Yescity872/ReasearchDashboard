@@ -1,5 +1,6 @@
 // models/miscellaneous.js
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const MiscellaneousSchema = new mongoose.Schema(
   {
@@ -13,13 +14,19 @@ const MiscellaneousSchema = new mongoose.Schema(
       required: true,
     },
     engagement: {
-      type: Object,
-      default: {}, // empty object
-    },
-    reviews: {
-      type: [Object],
-      default: [], // empty array
-    },
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
+  },
+
+  reviews: [
+    { type: Schema.Types.ObjectId, 
+      ref: "Review" }
+    ],
     localMap: {
       type: String,
       default: null,
@@ -89,9 +96,10 @@ const MiscellaneousSchema = new mongoose.Schema(
       default: null,
     },
     premium: {
-      type: String,
-      default: "FREE",
-    },
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE"
+  }
   },
   { timestamps: true }
 );

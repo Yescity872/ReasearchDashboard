@@ -1,5 +1,6 @@
 // models/activities.js
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const activitiesSchema = new mongoose.Schema({
   cityId: {
@@ -12,13 +13,15 @@ const activitiesSchema = new mongoose.Schema({
     required: true
   },
   engagement: {
-    type: Object,
-    default: {}
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
-  reviews: {
-    type: [String], // could be upgraded to [{ userId, reviewText, rating }]
-    default: []
-  },
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
   topActivities: {
     type: String
   },
@@ -45,8 +48,9 @@ const activitiesSchema = new mongoose.Schema({
   },
   premium: {
     type: String,
+    enum: ["FREE", "A", "B"],
     default: "FREE"
-  }
+  },
 }, { timestamps: true });
 
 const Activities = mongoose.model("activities", activitiesSchema);

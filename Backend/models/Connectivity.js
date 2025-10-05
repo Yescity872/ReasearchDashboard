@@ -11,13 +11,15 @@ const ConnectivitySchema = new Schema(
     required: true
     },
     engagement: {
-    type: Object,
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
-  reviews: {
-    type: [String], // or you can define a subdocument schema if reviews need more fields
-    default: [],
-  },
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     cityName: {
       type: String,
       required: true,
@@ -44,9 +46,10 @@ const ConnectivitySchema = new Schema(
       type: String,
     },
     premium: {
-      type: String,
-      default: "FREE",
-    },
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE"
+  },
   },
   { timestamps: true }
 );

@@ -14,13 +14,15 @@ const FoodSchema = new Schema(
       trim: true,
     },
     engagement: {
-    type: Object,
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
-  reviews: {
-    type: [String], // Can later expand to sub-schema for rating + comment
-    default: [],
-  },
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
     flagship: {
       type: Boolean,
       default: false,
@@ -54,19 +56,27 @@ const FoodSchema = new Schema(
     },
     valueForMoney: {
       type: Number,
-      default : 0,
+       min: 1,
+      max: 5,
+      default : 1,
     },
     service: {
-      type: Number,
-      default: 0,
+      type: Number, 
+      min: 1, 
+      max: 5,
+      default: 1,
     },
     taste: {
-      type: Number,
-      default: 0,
+      type: Number, 
+      min: 1, 
+      max: 5,
+      default: 1,
     },
     hygiene: {
-      type: Number,
-      default: 0,
+      type: Number, 
+      min: 1, 
+      max: 5,
+      default: 1,
     },
     menuSpecial: {
       type: String,
@@ -98,9 +108,10 @@ const FoodSchema = new Schema(
     type: [String], // Array of video URLs
   },
     premium: {
-      type: String,
-      default: "Free",
-    },
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE"
+  }
   },
   { timestamps: true }
 );

@@ -1,5 +1,6 @@
 // model/shopping.js
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const shoppingSchema = new mongoose.Schema({
   cityId: {
@@ -12,16 +13,23 @@ const shoppingSchema = new mongoose.Schema({
     required: true
   },
   engagement: {
-    type: Object,
-    default: {}
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
+
+  reviews: [
+    { type: Schema.Types.ObjectId, 
+      ref: "Review" }
+    ],
+
   flagship: {
     type: Boolean,
     default: false
-  },
-  reviews: {
-    type: [String], // can be changed to [{ userId, reviewText, rating }]
-    default: []
   },
   shops: {
     type: String,
@@ -63,8 +71,9 @@ const shoppingSchema = new mongoose.Schema({
   },
   premium: {
     type: String,
-    default: "FREE"
-  }
+    enum: ["FREE", "A", "B"],
+    default: "FREE",
+  },
 }, { timestamps: true });
 
 const Shopping = mongoose.model("shoppings", shoppingSchema);

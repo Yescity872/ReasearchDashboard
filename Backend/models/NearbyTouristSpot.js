@@ -1,5 +1,6 @@
 // models/NearbyTouristSpot.js
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const NearbyTouristSpotSchema = new mongoose.Schema(
   {
@@ -13,13 +14,16 @@ const NearbyTouristSpotSchema = new mongoose.Schema(
       required: true,
     },
     engagement: {
-      type: Object,
-      default: {}, // system-managed
-    },
-    reviews: {
-      type: [Object],
-      default: [], // system-managed
-    },
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
+  },
+
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
     places: {
       type: String,
       required: true,
@@ -85,9 +89,10 @@ const NearbyTouristSpotSchema = new mongoose.Schema(
       default: [],
     },
     premium: {
-      type: String,
-      default: "FREE",
-    },
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE",
+  },
   },
   { timestamps: true }
 );

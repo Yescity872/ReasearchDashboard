@@ -1,5 +1,6 @@
 // models/accommodations.js
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const accommodationSchema = new mongoose.Schema({
   cityId: {
@@ -12,17 +13,19 @@ const accommodationSchema = new mongoose.Schema({
     required: true
   },
   engagement: {
-    type: Object,
-    default: {}
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
   flagship: {
     type: Boolean,
     default: false
   },
-  reviews: {
-    type: [String], // can be enhanced to [{ userId, reviewText, rating }]
-    default: []
-  },
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
   hotels: {
     type: String,
     required: true
@@ -31,6 +34,12 @@ const accommodationSchema = new mongoose.Schema({
     type: Number,
   },
   lon: {
+    type: Number,
+  },
+  minPrice: {
+    type: Number,
+  },
+  maxPrice: {
     type: Number,
   },
   address: {
@@ -54,8 +63,9 @@ const accommodationSchema = new mongoose.Schema({
   },
   premium: {
     type: String,
+    enum: ["FREE", "A", "B"],
     default: "FREE"
-  }
+  },
 }, { timestamps: true });
 
 const Accommodation = mongoose.model("accommodations", accommodationSchema);

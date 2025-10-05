@@ -16,9 +16,15 @@ const CitySchema=new Schema({
     type: String,
     required:true  },
   engagement: {
-    type: Object,
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
+  onSite: {type: Boolean, default: false}
 },
   { timestamps: true }
 )

@@ -13,13 +13,15 @@ const GeneralCityInfoSchema=new Schema({
       required: true,
       trim: true,
     },
-    reviews: {
-    type: [String], // Assuming reviews will be stored as an array of strings
-    default: [],
-  },
+    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
   engagement: {
-    type: Object, // You can define a more specific schema for engagement if needed
-    default: {},
+    views: { type: Number, default: 0 },
+    viewedBy: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        timestamps: [{ type: Date, default: Date.now }]
+      }
+    ]
   },
     stateOrUT: {
       type: String,
@@ -55,10 +57,10 @@ const GeneralCityInfoSchema=new Schema({
       trim: true,
     },
     premium: {
-      type: String, // "Free" or "Premium"
-      default: 'Free',
-      trim: true,
-    },
+    type: String,
+    enum: ["FREE", "A", "B"],
+    default: "FREE"
+  },
   },
   { timestamps: true }
 );
