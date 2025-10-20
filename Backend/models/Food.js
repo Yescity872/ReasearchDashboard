@@ -5,8 +5,8 @@ const FoodSchema = new Schema(
   {
     cityId: {
       type: mongoose.Schema.Types.ObjectId, // Change to ObjectId
-    ref: 'cities', // Add reference to cities collection
-    required: true
+      ref: 'cities', // Add reference to cities collection
+      required: true
     },
     cityName: {
       type: String,
@@ -14,15 +14,15 @@ const FoodSchema = new Schema(
       trim: true,
     },
     engagement: {
-    views: { type: Number, default: 0 },
-    viewedBy: [
-      {
-        userId: { type: Schema.Types.ObjectId, ref: "User" },
-        timestamps: [{ type: Date, default: Date.now }]
-      }
-    ]
-  },
-  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
+      views: { type: Number, default: 0 },
+      viewedBy: [
+        {
+          userId: { type: Schema.Types.ObjectId, ref: "User" },
+          timestamps: [{ type: Date, default: Date.now }]
+        }
+      ]
+    },
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
     flagship: {
       type: Boolean,
       default: false,
@@ -56,27 +56,15 @@ const FoodSchema = new Schema(
     },
     valueForMoney: {
       type: Number,
-       min: 1,
-      max: 5,
-      default : 1,
     },
     service: {
-      type: Number, 
-      min: 1, 
-      max: 5,
-      default: 1,
+      type: Number,
     },
     taste: {
-      type: Number, 
-      min: 1, 
-      max: 5,
-      default: 1,
+      type: Number,
     },
     hygiene: {
-      type: Number, 
-      min: 1, 
-      max: 5,
-      default: 1,
+      type: Number,
     },
     menuSpecial: {
       type: String,
@@ -101,17 +89,17 @@ const FoodSchema = new Schema(
       type: String,
     },
     images: {
-    type: [String], // Array of image URLs
-    default: [],
-  },
-  videos: {
-    type: [String], // Array of video URLs
-  },
+      type: [String], // Array of image URLs
+      default: [],
+    },
+    videos: {
+      type: [String], // Array of video URLs
+    },
     premium: {
-    type: String,
-    enum: ["FREE", "A", "B"],
-    default: "FREE"
-  }
+      type: String,
+      enum: ["FREE", "A", "B"],
+      default: "FREE"
+    }
   },
   { timestamps: true }
 );
