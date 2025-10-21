@@ -17,7 +17,7 @@ import nearbyTouristSpotRoutes from './routes/nearbyTouristSpotRoutes.js';
 import placesToVisitRoutes from './routes/placesToVisitRoutes.js';
 import shoppingRoutes from './routes/shoppingRoutes.js';
 import miscellaneousRoutes from './routes/miscellaneousRoutes.js';
-
+import userRoutes from './routes/userRoutes.js';
 dotenv.config();
 
 const app=express();
@@ -62,6 +62,7 @@ app.use("/api/nearbytouristspots", nearbyTouristSpotRoutes);
 app.use("/api/places", placesToVisitRoutes);
 app.use("/api/shopping", shoppingRoutes);
 app.use("/api/miscellaneous", miscellaneousRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')
