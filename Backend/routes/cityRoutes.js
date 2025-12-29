@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCity, getAllcities,getCityById } from '../controllers/cityController.js';
+import { createCity, getAllcities, getCityById, updateCity } from '../controllers/cityController.js';
 
 const router = express.Router();
 
@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/create', createCity);
 router.get('/',getAllcities);
 router.get('/:cityId',getCityById);
+router.put('/:cityId', updateCity);
 
 export default router;

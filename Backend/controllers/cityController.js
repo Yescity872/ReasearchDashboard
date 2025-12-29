@@ -82,3 +82,67 @@ export const getCityById=async(req,res)=>{
         res.status(500).json({ message: "Server error" });
     }
 };
+
+export const updateCity = async (req, res) => {
+    try {
+        const { cityId } = req.params;
+        const { cityName, coverImage, content, onSite } = req.body;
+
+        // Find the city by ID
+        const city = await City.findById(cityId);
+        if (!city) {
+            return res.status(404).json({ message: "City not found" });
+        }
+
+        // Check if cityName is being updated and if it conflicts with existing city
+        if (cityName && cityName !== city.cityName) {
+            const existingCity = await City.findOne({ 
+                cityName: { $regex: new RegExp(`^${cityName}$`, 'i') },
+                _id: { $ne: cityId } // Exclude current city
+            });
+            if (existingCity) {
+                return res.status(409).json({ message: "City name already exists" });
+            }
+        }
+
+        // Handle cover image upload if provided
+        let cloudinaryImageUrl = coverImage;
+        if (coverImage && coverImage.trim() !== "" && coverImage !== city.coverImage) {
+            try {
+                // Upload image to Cloudinary
+                const uploadResult = await cloudinary.v2.uploader.upload(coverImage, {
+                    folder: 'city-covers',
+                    transformation: [
+                        { width: 1200, height: 630, crop: 'fill' },
+                        { quality: 'auto' },
+                        { format: 'webp' }
+                    ]
+                });
+                
+                cloudinaryImageUrl = uploadResult.secure_url;
+            } catch (uploadError) {
+                console.error("Cloudinary upload error:", uploadError);
+                // Continue with original URL if upload fails
+            }
+        }
+
+        // Update city fields
+        if (cityName) city.cityName = cityName;
+        if (coverImage) city.coverImage = cloudinaryImageUrl;
+        if (content !== undefined) city.content = content;
+        if (onSite !== undefined) city.onSite = onSite;
+
+        await city.save();
+
+        res.status(200).json({ 
+            message: "City updated successfully", 
+            city: {
+                ...city.toObject(),
+                cityId: city._id
+            }
+        });
+    } catch (error) {
+        console.error("Error updating city:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
